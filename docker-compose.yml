@@ -1,0 +1,20 @@
+version: "2" # Menggunakan Docker Compose versi 2 atau lebih
+
+services:
+  item-db:
+    image: mongo:3 # Menggunakan image mongo:3 dari Docker Hub
+    volumes:
+      - app-db:/data/db # Memakai volume bernama app-db dengan target /data/db di container
+    restart: always # Menerapkan restart policy pada berkas docker-compose.yml agar container selalu restart ketika terhenti.
+
+  item-app:
+    image: albaeud/item-app:v1 # Ganti nama-pengguna dan item-app:v1 sesuai dengan informasi Docker Hub Anda
+    ports:
+      - "80:8080" # Melakukan port mapping dari port 80 di host ke port 8080 di container
+    depends_on:
+      - item-db # Pastikan item-app hanya berjalan setelah item-db diluncurkan
+    restart: always # Menerapkan restart policy pada berkas docker-compose.yml agar container selalu restart ketika terhenti.
+
+volumes:
+  app-db: # supaya bisa di pakai oleh beberapa container
+
